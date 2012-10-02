@@ -29,6 +29,7 @@
 $(document).ready(function () {
   //if the app was somehow loaded on another page, default to the login page
   window.location = "#page-login";
+  forge.topbar.removeButtons();
   //a new user object
   var appUser = new Usergrid.Entity('user');
   //a new Collection object that will be used to hold the full feed list
@@ -45,12 +46,12 @@ $(document).ready(function () {
   //bind the various click events
   $('#btn-login').bind('click', login);
   $('#btn-show-page-update-account').bind('click', pageUpdateAccount);
-  $('#btn-logout').bind('click', logout);
   $('#btn-create-new-account').bind('click', createNewUser);
   $('#btn-update-account').bind('click', updateUser);
 
   $('#btn-close').bind('click', function() {
     //turn the reload timer on
+		addTopbarButtons();
     feedReloadTimer = window.setInterval( timerRefreshView, 30000 );
   });
 
@@ -81,6 +82,7 @@ $(document).ready(function () {
   });
 
   $('#post-message').bind('click', postMessage);
+	$('#post-sms-message').bind('click', postSMSMessage);
 
   /**
    *  function to log in the app user.  The API returns a token,
@@ -129,6 +131,7 @@ $(document).ready(function () {
   function logout() {
     Usergrid.ApiClient.logoutAppUser();
     window.location = "#page-login";
+		forge.topbar.removeButtons();
   }
 
   /**
@@ -194,6 +197,7 @@ $(document).ready(function () {
         },
         function () {
           window.location = "#login";
+					forge.topbar.removeButtons();
           $('#login-section-error').html('There was an error creating the new user.');
         }
       );
@@ -252,6 +256,7 @@ $(document).ready(function () {
         },
         function () {
           window.location = "#login";
+					forge.topbar.removeButtons();
            $('#user-message-update-account').html('<strong>There was an error updating your account</strong>');
         }
       );
@@ -280,10 +285,12 @@ $(document).ready(function () {
   function showMyFeed() {
     if (!Usergrid.ApiClient.isLoggedInAppUser()) {
       window.location = "#page-login";
+			forge.topbar.removeButtons();
       return;
     }
     //make sure we are on the messages page
     window.location = "#page-messages-list";
+		addTopbarButtons();
 
     fullFeedView = false;
     $('#btn-show-full-feed').removeClass('ui-btn-up-c');
@@ -335,10 +342,12 @@ $(document).ready(function () {
   function showFullFeed() {
     if (!Usergrid.ApiClient.isLoggedInAppUser()) {
       window.location = "#page-login";
+			forge.topbar.removeButtons();
       return;
     }
     //make sure we are on the messages page
     window.location = "#page-messages-list";
+		addTopbarButtons();
 
     fullFeedView = true;
     $('#btn-show-full-feed').addClass('ui-btn-up-c');
@@ -446,6 +455,7 @@ $(document).ready(function () {
   function followUser(username) {
     if (!Usergrid.ApiClient.isLoggedInAppUser()) {
       window.location = "#page-login";
+			forge.topbar.removeButtons();
       return false;
     }
 
@@ -483,6 +493,7 @@ $(document).ready(function () {
   function postMessage() {
     if (!Usergrid.ApiClient.isLoggedInAppUser()) {
       window.location = "#page-login";
+			forge.topbar.removeButtons();
       return false;
     }
     appUser = Usergrid.ApiClient.getLoggedInUser();
@@ -520,6 +531,7 @@ $(document).ready(function () {
           showMyFeed();
         }
         window.location = "#page-messages-list";
+				addTopbarButtons();
       },
       function () {
         alert('Could not post');
@@ -585,6 +597,42 @@ $(document).ready(function () {
     return;
   }
 
+	//... Epilogue from Trigger.io
+	
+	function postSMSMessage() {
+		forge.contact.select(function(contact) {
+			forge.sms.send({
+				body: $("#content").val(),
+				to: contact.phoneNumbers[0].value
+			}, function () {
+				alert("Message sent");
+				postMessage();
+			});
+		}, function() {
+			postMessage();
+		});
+	}
+
+	function addTopbarButtons() {
+		forge.topbar.addButton({
+			text: "Logout",
+			position: "left"
+		}, function (button) {
+			logout();
+		});
+		forge.topbar.addButton({
+			text: "Settings",
+			position: "right"
+		}, function () {
+			window.location = "#page-update-account";
+			forge.topbar.removeButtons();
+		});
+	}
+
+	forge.topbar.setTitle('Messagee');
+	forge.topbar.setTint([57, 107, 158, 1]);
+
 });
 
 //abudda abudda abudda that's all folks!
+

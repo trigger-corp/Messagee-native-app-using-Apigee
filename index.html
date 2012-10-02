@@ -12,7 +12,7 @@
         <script type="text/javascript">
           try {
             // first, set the org and app path.
-            Usergrid.ApiClient.init('Apigee', 'messageeapp');
+            Usergrid.ApiClient.init('amirnathoo', 'sandbox');
           }
           catch (e) {
             $('#login-section-error')
@@ -23,9 +23,6 @@
     <body>
 
         <div data-role="page" data-theme="b" id="page-login">
-          <div data-role="header" data-theme="b">
-            <h1>Messagee</h1>
-          </div>
           <div data-role="content">
             <h3>Messagee is a sample messaging app, like Twitter</h3>
             <p>
@@ -78,9 +75,6 @@
 
 
         <div data-role="page" data-theme="b" id="page-update-account">
-          <div data-role="header" data-theme="b">
-            <h1>Messagee</h1>
-          </div>
           <div data-role="content">
             <div id="user-message-update-account"></div>
             <p>Account Info</p>
@@ -107,11 +101,6 @@
 
 
         <div data-role="page" data-theme="b" id="page-messages-list">
-          <div data-role="header" data-theme="b">
-            <h1>Messagee</h1>
-            <a href="#login" id="btn-logout" data-role="button">Logout</a>
-            <a href="#page-update-account" id="btn-show-page-update-account" data-role="button" data-icon="gear" data-rel="dialog" data-transition="fade">Settings</a>
-          </div>
           <a href="#page-new-message" id="btn-show-create-message" data-role="button" data-rel="dialog" data-transition="fade">Compose Message</a>
           <div style="width: 50%; float: left">
               <a href="#" data-role="button" data-icon="home" id="btn-show-my-feed">My Stream</a>
@@ -137,18 +126,18 @@
 
 
         <div data-role="page" data-theme="b" id="page-new-message">
-          <div data-role="header" data-theme="b">
-            <h1>Create a new message</h1>
-          </div>
           <div data-role="content">
             <form name="login" id="login-form">
               <label for="content">Message (150 Chars max)</label>
               <textarea id="content" class="input-xlarge" rows="3" style="margin: 0px; width: 100%; height: 125px; "></textarea>
             </form>
-            <div style="width: 50%; float: left">
-              <button id="post-message">Post</button>
+            <div style="width: 100%;">
+              <button id="post-sms-message">Post &amp; SMS</button>
             </div>
             <div style="width: 50%; float: right">
+              <button id="post-message">Post</button>
+            </div>
+			<div style="width: 50%; float: right">
               <a href="#page-messages-list" id="btn-close-new-message" data-role="button">Cancel</a>
             </div>
           </div>
@@ -156,9 +145,6 @@
 
 
         <div data-role="page" data-theme="b" id="page-now-following">
-          <div data-role="header" data-theme="b">
-            <h1>Congratulations!</h1>
-          </div>
           <div data-role="content">
             <div id="now-following-text" style="height: 75px;"></div>
             <a href="#" data-rel="back" data-role="button" data-icon="delete">OK</a>

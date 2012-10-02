@@ -1,0 +1,28 @@
+{
+	"author": "amir@trigger.io", 
+	"config_version": "2", 
+	"description": "A simple messaging app created with Trigger.io and Apigee's Usergrid", 
+	"modules": {
+		"contact": true, 
+		"file": true, 
+		"is": true, 
+		"logging": {
+			"level": "DEBUG"
+		}, 
+		"media": true, 
+		"prefs": true, 
+		"reload": true, 
+		"request": {
+			"permissions": [
+				"http://*/*", 
+				"https://*/*"
+			]
+		}, 
+		"sms": true, 
+		"tools": true, 
+		"topbar": true
+	}, 
+	"name": "Messagee", 
+	"platform_version": "v1.4", 
+	"version": "0.1"
+}
